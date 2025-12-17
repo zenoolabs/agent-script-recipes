@@ -19,3 +19,4 @@ delete [SELECT Id FROM ASR_Task__c];
 delete [SELECT Id FROM ASR_Transaction_Log__c];
 delete [SELECT Id FROM ASR_Customer_Interest__c];
 delete [SELECT Id FROM ASR_Experience__c];
+delete [SELECT Id FROM ASR_Order__c];

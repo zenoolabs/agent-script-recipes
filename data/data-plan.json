@@ -18,6 +18,12 @@
         "files": ["travel-cruise-contact.json"]
     },
     {
+        "sobject": "Account",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": ["advanced-reasoning-account.json"]
+    },
+    {
         "sobject": "ASR_Product__c",
         "saveRefs": true,
         "resolveRefs": false,
@@ -88,6 +94,18 @@
         "saveRefs": true,
         "resolveRefs": false,
         "files": ["service-case.json"]
+    },
+    {
+        "sobject": "ASR_Order__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": ["advanced-reasoning-order.json"]
+    },
+    {
+        "sobject": "Case",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": ["advanced-reasoning-case.json"]
     },
     {
         "sobject": "ASR_Agent_Event_Log__c",
