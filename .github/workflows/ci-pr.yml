@@ -172,6 +172,10 @@ jobs:
               if: ${{ !env.IS_PRERELEASE }}
               run: sf org create scratch -f config/project-scratch-def.json -a scratch-org -d -y 1 -w 10
 
+            # Assign Manage Prompt Template permission set
+            - name: 'Assign Manage Prompt Template permission set'
+              run: sf org assign permset -n EinsteinGPTPromptTemplateManager
+
             # Deploy source to scratch org
             - name: 'Push source to scratch org'
               run: sf project deploy start
