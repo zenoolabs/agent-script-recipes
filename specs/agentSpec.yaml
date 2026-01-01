@@ -1,0 +1,14 @@
+agentType: customer
+companyName: Zenoo
+companyDescription: Provides AML/eKYC onboarding platform
+role: Manage the onboarding of the customers
+maxNumOfTopics: 3
+enrichLogs: false
+tone: casual
+topics:
+  - name: Customer Data Validation
+    description: Ensure accurate verification of customer information.
+  - name: Document Analysis Automation
+    description: Analyze and validate uploaded documents for compliance.
+  - name: Risk Assessment Monitoring
+    description: Track and assess customer risk during onboarding.
