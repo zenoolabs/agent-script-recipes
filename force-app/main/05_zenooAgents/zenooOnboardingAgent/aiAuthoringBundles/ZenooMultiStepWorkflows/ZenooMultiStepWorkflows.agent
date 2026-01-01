@@ -1,0 +1,73 @@
+# Multi-step workflow with actions and instructions and rules to guide the workflow
+system:
+    instructions: "You are a helpful onboarding assistant. Guide users through account creation step by step."
+
+    messages:
+        welcome: "Welcome! Let's get you onboarded step by step to our platform. I'll guide you through the process."
+        error: "Something went wrong during onboarding. Let me help you recover."
+
+config:
+    agent_name: "ZenooMultiStepWorkflows"
+    agent_label: "ZenooMultiStepWorkflows"
+    description: "Handles customer onboarding through a multi-step workflow"
+    default_agent_user: "null@00dqz000009ahxl9933167.ext"        
+
+variables:
+    contact_id: mutable string = ""
+        description: "Generated customer ID from account creation"
+    step: mutable number = 1
+        description: "The current step in the onboarding process"
+
+start_agent topic_selector:
+    description: "Welcome new customers and begin onboarding workflow"
+
+    reasoning:
+        instructions:|
+            Select the tool that best matches the user's message and conversation history. If it's unclear, make your best guess.
+        actions:
+            begin_onboarding: @utils.transition to @topic.onboarding
+                description: "Start the multi-step customer onboarding workflow"
+
+topic onboarding:
+    label: "onboarding"
+
+    description: "Orchestrates multi-step customer onboarding workflow"
+
+    reasoning:
+        instructions: ->
+            | Onboard the customer step by step following the below ## Rules. You are currently on {!variables.step} of Step 1.
+            | ## Rules:
+                 a. Onboarding is a strictly 1 step process. You are on step {!@variables.step} of 1 now. Display the step as you progress.
+                 b. NEVER ask the customer to set password. We will set the password in the background.
+            if @variables.step == 1:
+                | Ask for first name, last name, email and mobile to create contact.                 
+
+        actions:
+            create_contact: @actions.save_contact
+                available when @variables.step == 1
+                with first_name = ...
+                with last_name = ...
+                with email = ...
+                with mobile = ...
+                set @variables.contact_id = @outputs.contact_id
+                set @variables.step = 2           
+
+    actions:
+        save_contact:
+            description: "Creates a new contact"
+            inputs:
+                first_name: string
+                    description: "Customer's first name for the account"
+                last_name: string
+                    description: "Customer's last name for the account"
+                mobile: string
+                    description: "Customer's mobile phone number" 
+                email: string
+                    description: "Customer's email address for account registration and verification"                                               
+            outputs:
+                contact_id: string
+                    description: "The unique identifier of the created contact"
+                success: boolean
+                    description: "Indicates whether the account was created successfully"
+            target: "flow://ZenooSaveContact"
+
